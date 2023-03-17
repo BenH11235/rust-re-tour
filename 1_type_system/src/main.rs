@@ -118,8 +118,13 @@ pub mod person {
                 Ok(_Person {
                     name: (*name).clone().into(),
                     age: (*age).into(),
-                    favorite_beatle: favorite_beatle.map(|b| (*b).into())
+                    //the below would be more idiomatic with a map and a closure
+                    //but, again, we're not there yet
+                    favorite_beatle: match favorite_beatle {
+                        None => None,
+                        Some(b) => Some((*b).into())
                     }
+                }
                 )
             }
     }
