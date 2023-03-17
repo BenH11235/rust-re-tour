@@ -95,10 +95,11 @@ pub mod beatle {
     //Toy trait and impl for tour of Box<dyn trait>
 
 
-    pub trait Song : fmt::Display {
+    pub trait Song {
         fn beatle(&self) -> Box<Option<Beatle>>;
         fn title(&self) -> Box<String>;
         fn release_year(&self) -> Box<u64>;
+        fn text_repr(&self) -> Box<String>;
 
     }
     
@@ -108,16 +109,7 @@ pub mod beatle {
         release_year: u64
     }
     
-    impl fmt::Display for _Song {
-        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-            match self.beatle {
-                Some(b) =>
-                    write!(f, "Artist: {}, Title: {}, Release Year: {}", b, self.title, self.release_year),
-                None => 
-                    write!(f, "Not by a Beatle, Title: {}, Release Year: {}",  self.title, self.release_year),
-            }
-        }
-    }
+    
 
     impl Song for _Song {
         fn beatle(&self) -> Box<Option<Beatle>> {
@@ -129,7 +121,14 @@ pub mod beatle {
         fn release_year(&self) -> Box<u64> {
             Box::new(self.release_year)
         }
-
+        fn text_repr(&self) -> Box<String> {
+            Box::new(match *(self.beatle()) {
+                Some(b) =>
+                    format!("Artist: {}, Title: {}, Release Year: {}", b, self.title(), self.release_year()),
+                None => 
+                    format!("Not by a Beatle, Title: {}, Release Year: {}",  self.title(), self.release_year()),
+            })
+        }
     }
 
     const SONGS : [_Song; 5] = [
@@ -258,7 +257,7 @@ pub mod person {
         pub fn favorite_song<T>(p: &T) -> Result<impl Display, Error> 
         where T: Person {
             let song : Box<dyn beatle::Song> = beatle::implied_favorite_song(p.favorite_beatle()).map_err(|_| Error::FavoriteSongFail)?;
-            Ok(format!("{}'s favorite song -- {}", p.name(), song))
+            Ok(format!("{}'s favorite song -- {}", p.name(), song.text_repr()))
         }
     }
 }
