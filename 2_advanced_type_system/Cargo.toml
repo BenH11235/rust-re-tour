@@ -1,5 +1,5 @@
 [package]
-name = "memory_management"
+name = "advanced_type_system"
 version = "0.1.0"
 edition = "2021"
 
