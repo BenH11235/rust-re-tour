@@ -270,6 +270,7 @@ pub mod misc {
     }
 }
 
+use rayon::prelude::*;
 use crate::beatle::Beatle;
 use itertools::Itertools;
 use crate::person::{Person,state_verbose,Error};
@@ -284,7 +285,7 @@ fn main() -> Result<(), Error> {
             (&"Carol",   &_const::age::CAROL,    Some(&Beatle::Paul)),
             (&"David",   &_const::age::DAVID,    None::<&Beatle>)
         ]
-        .into_iter()
+        .into_par_iter()
         .map(|t| 
              person::new(t.0, t.1, t.2)
              .map(|p| (p.name(), p))
