@@ -1,6 +1,6 @@
 # Rust Binary Analysis, Feature by Feature
 
-This is a companion git repository for the blog post "Rust Binary Analysis, Feature by Feature" (link will be available upon blog post's publication).
+This is a companion git repository for the blog post [Rust Binary Analysis, Feature by Feature](https://research.checkpoint.com/2023/rust-binary-analysis-feature-by-feature/).
 
 ## Usage
 
